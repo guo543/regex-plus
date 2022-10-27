@@ -28,9 +28,9 @@ Sample usage:
 output:
 ```
 Parser: { source = (0|(1(01*(00)*0)*1)*)* }
-{
-SyntaxTree: 
 
+SyntaxTree: 
+{
 KleeneStar:
 ---Union:
 ------Symbol: 0
