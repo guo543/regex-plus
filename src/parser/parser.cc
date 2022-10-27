@@ -112,8 +112,8 @@ std::shared_ptr<STExpr> Parser::ParseKleeneStar() {
 }
 
 void Parser::PrintSyntaxTree() {
+  *st_stream_ << "\nSyntaxTree: \n";
   *st_stream_ << "{\n";
-  *st_stream_ << "SyntaxTree: \n\n";
 
   root_->Print(st_stream_, 0);
 
