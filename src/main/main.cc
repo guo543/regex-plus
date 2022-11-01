@@ -26,6 +26,7 @@ int main(int argc, char* argv[]) {
   nfa::NFA* nfa = nfa::NFA::FromSyntaxTree(syntax_tree);
 
   delete[] buffer;
+  delete nfa;
 
   return 0;
 }

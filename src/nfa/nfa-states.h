@@ -59,10 +59,15 @@ class NFAState {
  public:
   using Type = StateType;
 
-  NFAState(Type type);
+  explicit NFAState(Type type);
+  NFAState();
+
+  ~NFAState();
 
   void AddTransition(NFATransition trans, std::shared_ptr<NFAState> state);
   void SetType(Type type);
+
+  void Clear();
 
  private:
   using StateSet = std::unordered_set<std::shared_ptr<NFAState>>;

@@ -12,6 +12,7 @@ namespace nfa {
 class NFA {
  public:
   static NFA* FromSyntaxTree(std::shared_ptr<parser::STExpr> root);
+  ~NFA();
 
  private:
   explicit NFA(std::shared_ptr<NFAState> entry, std::shared_ptr<NFAState> accept);
