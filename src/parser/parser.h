@@ -16,7 +16,7 @@ class Parser {
 
   std::shared_ptr<STExpr> Parse();
 
- protected:
+ private:
   char Next();
   char Peek();
 
@@ -30,7 +30,6 @@ class Parser {
 
   void PrintSyntaxTree();
 
- private:
   const char* source_;
   const char* cursor_;
 
@@ -39,6 +38,8 @@ class Parser {
   std::shared_ptr<STExpr> root_;
 
   std::ostream* st_stream_;
+
+  bool parsed_;
 };
 
 } // namespace parser

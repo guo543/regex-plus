@@ -1,4 +1,4 @@
-#include "parser.h"
+#include "src/parser/parser.h"
 
 #include <cwctype>
 
@@ -8,7 +8,8 @@ namespace parser {
 Parser::Parser(const char* source, std::ostream* st_stream)
     : source_(source),
       st_stream_(st_stream),
-      root_(nullptr) {
+      root_(nullptr),
+      parsed_(false) {
   printf("Parser: { source = %s }\n", source);
   cursor_ = source;
   curr_char_ = *cursor_;
@@ -37,11 +38,13 @@ bool Parser::PeekIsNot(char c) {
 }
 
 bool Parser::PeekIsSymbol() {
-  return iswalnum(Peek());
+  return iswalnum(Peek()) || PeekIs('.');
 }
 
 std::shared_ptr<STExpr> Parser::Parse() {
   root_ = ParseUnion();
+
+  parsed_ = true;
 
   if (st_stream_ && root_) {
     PrintSyntaxTree();
@@ -112,12 +115,16 @@ std::shared_ptr<STExpr> Parser::ParseKleeneStar() {
 }
 
 void Parser::PrintSyntaxTree() {
-  *st_stream_ << "\nSyntaxTree: \n";
-  *st_stream_ << "{\n";
+  if (parsed_) {
+    *st_stream_ << "\nSyntaxTree: \n";
+    *st_stream_ << "{\n";
 
-  root_->Print(st_stream_, 0);
+    root_->Print(st_stream_, 0);
 
-  *st_stream_ << "}\n";
+    *st_stream_ << "}\n";
+  } else {
+    *st_stream_ << "Syntax Tree has not been created\n";
+  }
 }
 
 } // namespace parser

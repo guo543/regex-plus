@@ -1,7 +1,8 @@
 # regex-plus
 
 A simple regular expression engine.
-Now supports union "|", concat "1001" and Kleene star "*"
+Now supports union "|", concat "1001" and Kleene star "*".
+The symbols allowed are alphanumeric characters and the wildcard symbol '.'.
 
 It will print out the syntax tree by default for now.
 
