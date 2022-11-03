@@ -15,7 +15,9 @@ Parser::Parser(const char* source, std::ostream* st_stream)
   curr_char_ = *cursor_;
 }
 
-Parser::~Parser() {}
+Parser::~Parser() {
+  delete[] source_;
+}
 
 char Parser::Next() {
   char tmp = curr_char_;

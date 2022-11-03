@@ -5,27 +5,84 @@
 #include "src/parser/parser.h"
 #include "src/parser/st-nodes.h"
 #include "src/nfa/nfa.h"
+#include "src/main/ezOptionParser.h"
 
 using namespace regex_plus;
 
-int main(int argc, char* argv[]) {
-  if (argc < 2) {
-    printf("Please specify an input string.\n");
-    printf("Usage: regexp [regex]\n");
+int main(int argc, const char* argv[]) {
+  ez::ezOptionParser opt;
+  opt.overview = "Regex Plus regular expression engine";
+  opt.syntax = "./regexp [OPTIONS] [REGEX]";
+  opt.example = "./regexp -s -n \"(0|(1(01*(00)*0)*1)*)*\"\n";
+
+  opt.add(
+    "", // Default.
+    0, // Required?
+    2, // Number of args expected.
+    0, // Delimiter if expecting multiple args.
+    "Display usage instructions.\n", // Help description.
+    "-h",     // Flag token. 
+    "--help"  // Flag token.
+  );
+
+  opt.add(
+    "", // Default.
+    0, // Required?
+    0, // Number of args expected.
+    0, // Delimiter if expecting multiple args.
+    "Print syntax tree to stdout.\n", // Help description.
+    "-s",     // Flag token. 
+    "--print-syntax-tree"  // Flag token.
+  );
+
+  opt.add(
+    "", // Default.
+    0, // Required?
+    0, // Number of args expected.
+    0, // Delimiter if expecting multiple args.
+    "Print NFA to stdout.\n", // Help description.
+    "-n",     // Flag token. 
+    "--print-nfa"  // Flag token.
+  );
+
+  opt.parse(argc, argv);
+
+  if (opt.isSet("-h")) {
+  	std::string usage;
+    opt.getUsage(usage);
+    std::cout << usage;
     return 1;
   }
 
-  // std::ofstream out("./out");
-  char* buffer = new char[strlen(argv[1]) + 1];
-  buffer[strlen(argv[1])] = '\0';
-  strncpy(buffer, argv[1], strlen(argv[1]));
+  std::ostream* st_stream = nullptr;
+  std::ostream* nfa_Stream = nullptr;
+
+  if (opt.isSet("-s")) {
+    st_stream = &std::cout;
+  }
+
+  if (opt.isSet("-n")) {
+    nfa_Stream = &std::cout;
+  }
+
+  if (opt.lastArgs.size() == 0) {
+    std::cout << "No regex specified\n\n";
+    std::string usage;
+    opt.getUsage(usage);
+    std::cout << usage;
+    return 1;
+  }
+
+  const char* regex_arg = opt.lastArgs[0]->c_str();
+
+  char* buffer = new char[strlen(regex_arg) + 1];
+  buffer[strlen(regex_arg)] = '\0';
+  strncpy(buffer, regex_arg, strlen(regex_arg));
   
-  parser::Parser parser(buffer, &std::cout);
+  parser::Parser parser(buffer, st_stream);
   std::shared_ptr<parser::STExpr> syntax_tree = parser.Parse();
 
-  delete[] buffer;
-
-  nfa::NFA* nfa = nfa::NFA::FromSyntaxTree(syntax_tree, &std::cout);
+  nfa::NFA* nfa = nfa::NFA::FromSyntaxTree(syntax_tree, nfa_Stream);
 
   delete nfa;
 

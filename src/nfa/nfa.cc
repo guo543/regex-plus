@@ -35,7 +35,10 @@ NFA* NFA::FromSyntaxTree(std::shared_ptr<parser::STExpr> root,
   NFA* instance = new NFA(pair.first, pair.second, nfa_stream);
 
   instance->Finalize();
-  instance->PrintNFA();
+
+  if (nfa_stream) {
+    instance->PrintNFA();
+  }
 
   return instance;
 }
@@ -123,7 +126,7 @@ void NFA::PrintNFA() {
 
   accept_->Print(nfa_stream_);
 
-  *nfa_stream_ << "}\n";
+  *nfa_stream_ << "}\n\n";
 }
 
 } // namespace nfa

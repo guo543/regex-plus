@@ -11,6 +11,7 @@ namespace nfa {
 
 class NFA {
  public:
+  // Implementation of Thompson's construction algorithm
   static NFA* FromSyntaxTree(std::shared_ptr<parser::STExpr> root,
                              std::ostream* nfa_stream);
   ~NFA();
