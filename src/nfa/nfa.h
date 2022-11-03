@@ -11,16 +11,26 @@ namespace nfa {
 
 class NFA {
  public:
-  static NFA* FromSyntaxTree(std::shared_ptr<parser::STExpr> root);
+  static NFA* FromSyntaxTree(std::shared_ptr<parser::STExpr> root,
+                             std::ostream* nfa_stream);
   ~NFA();
 
  private:
-  explicit NFA(std::shared_ptr<NFAState> entry, std::shared_ptr<NFAState> accept);
+  explicit NFA(std::shared_ptr<NFAState> entry,
+               std::shared_ptr<NFAState> accept,
+               std::ostream* nfa_stream);
 
+  void AssignID();
+
+  void Finalize();
   void PrintNFA();
+
+  size_t size_;
 
   std::shared_ptr<NFAState> entry_;
   std::shared_ptr<NFAState> accept_;
+
+  std::ostream* nfa_stream_;
 };
 
 } // namespace nfa

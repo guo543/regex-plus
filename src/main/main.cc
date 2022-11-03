@@ -23,9 +23,10 @@ int main(int argc, char* argv[]) {
   parser::Parser parser(buffer, &std::cout);
   std::shared_ptr<parser::STExpr> syntax_tree = parser.Parse();
 
-  nfa::NFA* nfa = nfa::NFA::FromSyntaxTree(syntax_tree);
-
   delete[] buffer;
+
+  nfa::NFA* nfa = nfa::NFA::FromSyntaxTree(syntax_tree, &std::cout);
+
   delete nfa;
 
   return 0;

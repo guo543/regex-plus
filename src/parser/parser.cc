@@ -116,12 +116,12 @@ std::shared_ptr<STExpr> Parser::ParseKleeneStar() {
 
 void Parser::PrintSyntaxTree() {
   if (parsed_) {
-    *st_stream_ << "\nSyntaxTree: \n";
+    *st_stream_ << "\nSyntax Tree:\n";
     *st_stream_ << "{\n";
 
     root_->Print(st_stream_, 0);
 
-    *st_stream_ << "}\n";
+    *st_stream_ << "}\n\n";
   } else {
     *st_stream_ << "Syntax Tree has not been created\n";
   }

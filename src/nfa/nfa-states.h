@@ -12,7 +12,7 @@ class NFA;
 
 enum class TransitionType {
   kEpsilon = 0,
-  kWildCard = 1,
+  kWildcard = 1,
   kSymbol = 2
 };
 
@@ -23,6 +23,8 @@ class NFATransition {
   static NFATransition CreateWildcard();
   static NFATransition CreateEpsilon();
   static NFATransition CreateSymbol(char symbol);
+
+  void Print(std::ostream* nfa_stream) const;
 
   class Hash {
    public:
@@ -69,11 +71,19 @@ class NFAState {
 
   void Clear();
 
+  void Print(std::ostream* nfa_stream);
+
+  int GetID();
+  void SetID(int id);
+
  private:
   using StateSet = std::unordered_set<std::shared_ptr<NFAState>>;
   std::unordered_map<NFATransition, StateSet*, NFATransition::Hash> transition_;
 
   Type type_;
+  int id_;
+
+  friend class NFA;
 };
 
 } // namespace nfa
