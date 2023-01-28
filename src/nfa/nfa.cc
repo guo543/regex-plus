@@ -88,10 +88,11 @@ void NFA::Finalize() {
 }
 
 void NFA::PrintNFA() {
-  *nfa_stream_ << "\nNFA:\n";
+  // *nfa_stream_ << "\nNFA:\n";
   *nfa_stream_ << "{\n";
 
-  *nfa_stream_ << "size = " << size_ << "\n\n";
+  *nfa_stream_ << "  \"size\": " << size_ << ",\n";
+  *nfa_stream_ << "  \"nfa\": {" << "\n";
 
   int visited[size_] = { 0 };
   visited[size_ - 1] = 1;
@@ -111,6 +112,8 @@ void NFA::PrintNFA() {
 
     curr->Print(nfa_stream_);
 
+    *nfa_stream_ << ",\n";
+
     for (auto iter = curr->transition_.begin();
          iter != curr->transition_.end();
          iter++) {
@@ -126,7 +129,8 @@ void NFA::PrintNFA() {
 
   accept_->Print(nfa_stream_);
 
-  *nfa_stream_ << "}\n\n";
+  *nfa_stream_ << "\n  }" << "\n";
+  *nfa_stream_ << "}\n";
 }
 
 } // namespace nfa

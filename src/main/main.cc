@@ -18,7 +18,7 @@ int main(int argc, const char* argv[]) {
   opt.add(
     "", // Default.
     0, // Required?
-    2, // Number of args expected.
+    0, // Number of args expected.
     0, // Delimiter if expecting multiple args.
     "Display usage instructions.\n", // Help description.
     "-h",     // Flag token. 
@@ -55,14 +55,18 @@ int main(int argc, const char* argv[]) {
   }
 
   std::ostream* st_stream = nullptr;
-  std::ostream* nfa_Stream = nullptr;
+  std::ostream* nfa_stream = nullptr;
 
   if (opt.isSet("-s")) {
     st_stream = &std::cout;
   }
 
+  std::ofstream* file = nullptr;
+
   if (opt.isSet("-n")) {
-    nfa_Stream = &std::cout;
+    //nfa_stream = &std::cout;
+    file = new std::ofstream("./nfa.json");
+    nfa_stream = file;
   }
 
   if (opt.lastArgs.size() == 0) {
@@ -82,9 +86,11 @@ int main(int argc, const char* argv[]) {
   parser::Parser parser(buffer, st_stream);
   std::shared_ptr<parser::STExpr> syntax_tree = parser.Parse();
 
-  nfa::NFA* nfa = nfa::NFA::FromSyntaxTree(syntax_tree, nfa_Stream);
+  nfa::NFA* nfa = nfa::NFA::FromSyntaxTree(syntax_tree, nfa_stream);
 
   delete nfa;
+
+  delete file;
 
   return 0;
 }
