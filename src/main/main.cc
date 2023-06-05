@@ -12,8 +12,8 @@ using namespace regex_plus;
 int main(int argc, const char* argv[]) {
   ez::ezOptionParser opt;
   opt.overview = "Regex Plus regular expression engine";
-  opt.syntax = "./regexp [OPTIONS] [REGEX]";
-  opt.example = "./regexp -s -n \"(0|(1(01*(00)*0)*1)*)*\"\n";
+  opt.syntax = "./regex-dev [OPTIONS] [REGEX]";
+  opt.example = "./regex-dev -s -n \"(0|(1(01*(00)*0)*1)*)*\"\n";
 
   opt.add(
     "", // Default.
