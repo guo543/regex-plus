@@ -94,7 +94,7 @@ void NFA::PrintNFA() {
   *nfa_stream_ << "  \"size\": " << size_ << ",\n";
   *nfa_stream_ << "  \"nfa\": {" << "\n";
 
-  int visited[size_] = { 0 };
+  int* visited = new int[size_];
   visited[size_ - 1] = 1;
   std::queue<std::shared_ptr<NFAState>> q;
 
@@ -131,6 +131,8 @@ void NFA::PrintNFA() {
 
   *nfa_stream_ << "\n  }" << "\n";
   *nfa_stream_ << "}\n";
+
+  delete[] visited;
 }
 
 } // namespace nfa
