@@ -2,9 +2,9 @@
 
 #include <iostream>
 
-#define PRINT_DASHES(st_stream, depth)\
-  for (int i = 0; i < depth; i++) {\
-    *st_stream << "---";\
+#define PRINT_DASHES(st_stream, depth) \
+  for (int i = 0; i < depth; i++) {    \
+    *st_stream << "---";               \
   }
 
 namespace regex_plus {
@@ -38,8 +38,7 @@ void STConcat::AddOperand(std::shared_ptr<STExpr> operand) {
   operands_.push_back(operand);
 }
 
-STKleeneStar::STKleeneStar(std::shared_ptr<STExpr> expr)
-    : expr_(expr) {}
+STKleeneStar::STKleeneStar(std::shared_ptr<STExpr> expr) : expr_(expr) {}
 
 void STKleeneStar::Print(std::ostream* st_stream, int depth) {
   PRINT_DASHES(st_stream, depth);
@@ -47,13 +46,12 @@ void STKleeneStar::Print(std::ostream* st_stream, int depth) {
   expr_->Print(st_stream, depth + 1);
 }
 
-STSymbol::STSymbol(char value)
-    : value_(value) {}
+STSymbol::STSymbol(char value) : value_(value) {}
 
 void STSymbol::Print(std::ostream* st_stream, int depth) {
   PRINT_DASHES(st_stream, depth);
   *st_stream << "Symbol: " << value_ << "\n";
 }
 
-} // namespace parser
-} // namespace regex_plus
+}  // namespace parser
+}  // namespace regex_plus

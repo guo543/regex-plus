@@ -5,7 +5,8 @@ A simple regular expression engine.
 Now supports union "|", concat "1001" and Kleene star "*".
 The symbols allowed are alphanumeric characters and the wildcard symbol '.'.
 
-It will print out the syntax tree and the equivalent NFA (Nondeterministic Finite Automaton) by default for now.
+Add -s to print out the syntax tree.
+Add -n to print out the equivalent NFA (Nondeterministic Finite Automaton).
 
 Generate make files:
 ```
@@ -25,7 +26,7 @@ make
 
 Sample usage:
 ```
-./regexp "(0|(1(01*(00)*0)*1)*)*"
+./regexp -s -n "(0|(1(01*(00)*0)*1)*)*"
 ```
 output:
 ```

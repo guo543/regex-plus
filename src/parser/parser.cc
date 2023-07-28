@@ -6,16 +6,13 @@ namespace regex_plus {
 namespace parser {
 
 Parser::Parser(const char* source, std::ostream* st_stream)
-    : source_(source),
-      st_stream_(st_stream),
-      root_(nullptr),
-      parsed_(false) {
+    : source_(source), st_stream_(st_stream), root_(nullptr), parsed_(false) {
   printf("Parser: { source = %s }\n", source);
   cursor_ = source;
   curr_char_ = *cursor_;
 }
 
-Parser::~Parser() {}
+Parser::~Parser() { delete[] source_; }
 
 char Parser::Next() {
   char tmp = curr_char_;
@@ -25,21 +22,13 @@ char Parser::Next() {
   return tmp;
 }
 
-char Parser::Peek() {
-  return curr_char_;
-}
+char Parser::Peek() { return curr_char_; }
 
-bool Parser::PeekIs(char c) {
-  return c == curr_char_;
-}
+bool Parser::PeekIs(char c) { return c == curr_char_; }
 
-bool Parser::PeekIsNot(char c) {
-  return c != curr_char_;
-}
+bool Parser::PeekIsNot(char c) { return c != curr_char_; }
 
-bool Parser::PeekIsSymbol() {
-  return iswalnum(Peek()) || PeekIs('.');
-}
+bool Parser::PeekIsSymbol() { return iswalnum(Peek()) || PeekIs('.'); }
 
 std::shared_ptr<STExpr> Parser::Parse() {
   root_ = ParseUnion();
@@ -55,7 +44,7 @@ std::shared_ptr<STExpr> Parser::Parse() {
 
 std::shared_ptr<STExpr> Parser::ParseUnion() {
   std::shared_ptr<STExpr> ret = nullptr;
-  
+
   ret = ParseConcat();
 
   if (PeekIs('|')) {
@@ -95,7 +84,6 @@ std::shared_ptr<STExpr> Parser::ParseConcat() {
 }
 
 std::shared_ptr<STExpr> Parser::ParseKleeneStar() {
-
   std::shared_ptr<STExpr> ret = nullptr;
 
   if (PeekIsSymbol()) {
@@ -110,7 +98,7 @@ std::shared_ptr<STExpr> Parser::ParseKleeneStar() {
     ret = std::make_shared<STKleeneStar>(ret);
     Next();
   }
-  
+
   return ret;
 }
 
@@ -127,5 +115,5 @@ void Parser::PrintSyntaxTree() {
   }
 }
 
-} // namespace parser
-} // namespace regex_plus
+}  // namespace parser
+}  // namespace regex_plus

@@ -22,18 +22,18 @@ NFATransition NFATransition::CreateSymbol(char symbol) {
 }
 
 void NFATransition::Print(std::ostream* nfa_stream) const {
-  *nfa_stream << "  ";
+  *nfa_stream << "      ";
   switch (type_) {
     case Type::kEpsilon:
-      *nfa_stream << "Epsilon:\n";
+      *nfa_stream << "\"Epsilon\": ";
       break;
 
     case Type::kWildcard:
-      *nfa_stream << "Wildcard:\n";
+      *nfa_stream << "\"Wildcard\": ";
       break;
 
     case Type::kSymbol:
-      *nfa_stream << "Symbol " << symbol_ << ":\n";
+      *nfa_stream << "\"Symbol " << symbol_ << "\": ";
       break;
 
     default:
@@ -41,14 +41,12 @@ void NFATransition::Print(std::ostream* nfa_stream) const {
   }
 }
 
-NFAState::NFAState()
-    : type_(StateType::kOther), id_(-1) {}
+NFAState::NFAState() : type_(StateType::kOther), id_(-1) {}
 
-NFAState::NFAState(Type type)
-    : type_(type), id_(-1) {}
+NFAState::NFAState(Type type) : type_(type), id_(-1) {}
 
 NFAState::~NFAState() {
-  //printf("destroyed\n");
+  // printf("destroyed\n");
 }
 
 void NFAState::Clear() {
@@ -71,7 +69,8 @@ void NFAState::Clear() {
   }
 }
 
-void NFAState::AddTransition(NFATransition trans, std::shared_ptr<NFAState> state) {
+void NFAState::AddTransition(NFATransition trans,
+                             std::shared_ptr<NFAState> state) {
   auto it = transition_.find(trans);
   if (it == transition_.end()) {
     StateSet* set = new StateSet();
@@ -82,40 +81,45 @@ void NFAState::AddTransition(NFATransition trans, std::shared_ptr<NFAState> stat
   }
 }
 
-void NFAState::SetType(Type type) {
-  type_ = type;
-}
+void NFAState::SetType(Type type) { type_ = type; }
 
-int NFAState::GetID() {
-  return id_;
-}
+int NFAState::GetID() { return id_; }
 
-void NFAState::SetID(int id) {
-  id_ = id;
-}
+void NFAState::SetID(int id) { id_ = id; }
 
 void NFAState::Print(std::ostream* nfa_stream) {
-  *nfa_stream << "q" << id_;
+  *nfa_stream << "    \"q" << id_ << "\"";
 
-  if (type_ == Type::kEntry) {
-    *nfa_stream << " (entry state):\n";
-  } else if (type_ == Type::kAccept) {
-    *nfa_stream << " (accept state):\n";
-  } else {
-    *nfa_stream << ":\n";
-  }
+  // if (type_ == Type::kEntry) {
+  //   *nfa_stream << " (entry state):\n";
+  // } else if (type_ == Type::kAccept) {
+  //   *nfa_stream << " (accept state):\n";
+  // } else {
+  *nfa_stream << ": {\n";
+  // }
 
   for (auto iter = transition_.begin(); iter != transition_.end(); iter++) {
     auto set = iter->second;
     iter->first.Print(nfa_stream);
 
+    *nfa_stream << "[\n";
+
     for (auto setIter = set->begin(); setIter != set->end(); setIter++) {
-      *nfa_stream << "    q" << (*setIter)->id_ << "\n";
+      *nfa_stream << "        \"q" << (*setIter)->id_;
+      auto tmp = setIter;
+      std::advance(tmp, 1);
+      if (tmp == set->end()) {
+        *nfa_stream << "\"\n";
+      } else {
+        *nfa_stream << "\",\n";
+      }
     }
+
+    *nfa_stream << "      ]\n";
   }
 
-  *nfa_stream << "\n";
+  *nfa_stream << "    }";
 }
 
-} // namespace nfa
-} // namespace regex_plus
+}  // namespace nfa
+}  // namespace regex_plus

@@ -42,7 +42,7 @@ class Parser {
   bool parsed_;
 };
 
-} // namespace parser
-} // namespace regex_plus
+}  // namespace parser
+}  // namespace regex_plus
 
 #endif

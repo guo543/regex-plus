@@ -1,16 +1,16 @@
 #ifndef ST_NODES_H_
 #define ST_NODES_H_
 
-#include <vector>
 #include <memory>
+#include <vector>
 
 #include "src/nfa/nfa-states.h"
 
 namespace regex_plus {
 namespace parser {
 
-using StatePair = std::pair<std::shared_ptr<nfa::NFAState>,
-                            std::shared_ptr<nfa::NFAState>>;
+using StatePair =
+    std::pair<std::shared_ptr<nfa::NFAState>, std::shared_ptr<nfa::NFAState>>;
 
 /*
  * Base class of all syntax tree nodes
@@ -22,7 +22,7 @@ class STExpr {
   virtual StatePair GenerateNFA() = 0;
 
  protected:
-  STExpr() {};
+  STExpr(){};
 };
 
 class STUnion : public STExpr {
@@ -68,12 +68,12 @@ class STSymbol : public STExpr {
   void Print(std::ostream* st_stream, int depth) override;
 
   StatePair GenerateNFA() override;
-  
+
  private:
   char value_;
 };
 
-} // namespace parser {
-} // namespace regex_plus
+}  // namespace parser
+}  // namespace regex_plus
 
 #endif

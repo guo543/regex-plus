@@ -1,7 +1,7 @@
-#include "src/parser/st-nodes.h"
-
-#include <utility>
 #include <iostream>
+#include <utility>
+
+#include "src/parser/st-nodes.h"
 
 namespace regex_plus {
 namespace parser {
@@ -46,7 +46,7 @@ StatePair STConcat::GenerateNFA() {
 }
 
 StatePair STKleeneStar::GenerateNFA() {
-  //std::cout << "Generating KleeneStar\n";
+  // std::cout << "Generating KleeneStar\n";
 
   StatePair pair = expr_->GenerateNFA();
 
@@ -63,7 +63,7 @@ StatePair STKleeneStar::GenerateNFA() {
 }
 
 StatePair STSymbol::GenerateNFA() {
-  //std::cout << "Generating Symbol\n";
+  // std::cout << "Generating Symbol\n";
 
   std::shared_ptr<NFAState> start = std::make_shared<NFAState>();
   std::shared_ptr<NFAState> end = std::make_shared<NFAState>();
@@ -79,5 +79,5 @@ StatePair STSymbol::GenerateNFA() {
   return std::make_pair(start, end);
 }
 
-} // namespace parser
-} // namespace regex_plus
+}  // namespace parser
+}  // namespace regex_plus

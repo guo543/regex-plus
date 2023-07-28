@@ -10,11 +10,7 @@ namespace nfa {
 
 class NFA;
 
-enum class TransitionType {
-  kEpsilon = 0,
-  kWildcard = 1,
-  kSymbol = 2
-};
+enum class TransitionType { kEpsilon = 0, kWildcard = 1, kSymbol = 2 };
 
 class NFATransition {
  public:
@@ -29,7 +25,7 @@ class NFATransition {
   class Hash {
    public:
     std::size_t operator()(const NFATransition& trans) const {
-      return (std::size_t) trans.type_;
+      return (std::size_t)trans.type_;
     }
   };
 
@@ -44,18 +40,14 @@ class NFATransition {
  private:
   NFATransition(Type type, char symbol);
 
-  //std::unordered_set<char> accepted_set;
+  // std::unordered_set<char> accepted_set;
   Type type_;
   char symbol_;
 
   friend class NFAState;
 };
 
-enum class StateType {
-  kEntry,
-  kAccept,
-  kOther
-};
+enum class StateType { kEntry, kAccept, kOther };
 
 class NFAState {
  public:
@@ -86,7 +78,7 @@ class NFAState {
   friend class NFA;
 };
 
-} // namespace nfa
-} // namespace regex_plus
+}  // namespace nfa
+}  // namespace regex_plus
 
 #endif
