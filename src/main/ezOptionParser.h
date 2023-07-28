@@ -331,7 +331,7 @@ static char** CommandLineToArgvA(char* CmdLine, int* _argc) {
   i = 0;
   j = 0;
 
-  while( a = CmdLine[i] ) {
+  while( (a = CmdLine[i]) ) {
     if(in_QM) {
       if( (a == '\"') ||
           (a == '\'')) // rsz. Added single quote.
