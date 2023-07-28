@@ -3,8 +3,8 @@
 
 #include <memory>
 
-#include "src/parser/st-nodes.h"
 #include "src/nfa/nfa-states.h"
+#include "src/parser/st-nodes.h"
 
 namespace regex_plus {
 namespace nfa {
@@ -18,8 +18,7 @@ class NFA {
 
  private:
   explicit NFA(std::shared_ptr<NFAState> entry,
-               std::shared_ptr<NFAState> accept,
-               std::ostream* nfa_stream);
+               std::shared_ptr<NFAState> accept, std::ostream* nfa_stream);
 
   void AssignID();
 
@@ -34,7 +33,7 @@ class NFA {
   std::ostream* nfa_stream_;
 };
 
-} // namespace nfa
-} // namespace regex_plus
+}  // namespace nfa
+}  // namespace regex_plus
 
 #endif

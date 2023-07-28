@@ -6,8 +6,7 @@
 namespace regex_plus {
 namespace nfa {
 
-NFA::NFA(std::shared_ptr<NFAState> entry,
-         std::shared_ptr<NFAState> accept,
+NFA::NFA(std::shared_ptr<NFAState> entry, std::shared_ptr<NFAState> accept,
          std::ostream* nfa_stream)
     : entry_(entry), accept_(accept), nfa_stream_(nfa_stream) {}
 
@@ -21,7 +20,7 @@ NFA::~NFA() {
 NFA* NFA::FromSyntaxTree(std::shared_ptr<parser::STExpr> root,
                          std::ostream* nfa_stream) {
   printf("Generating NFA ...\n");
-  
+
   // test comparator
   /*
   NFATransition transA = NFATransition::CreateSymbol('a');
@@ -29,7 +28,7 @@ NFA* NFA::FromSyntaxTree(std::shared_ptr<parser::STExpr> root,
 
   std::cout << (transA == transB ? "true\n" : "false\n");
   */
-  
+
   auto pair = root->GenerateNFA();
 
   NFA* instance = new NFA(pair.first, pair.second, nfa_stream);
@@ -62,14 +61,11 @@ void NFA::AssignID() {
 
     curr->id_ = id++;
 
-    for (auto iter = curr->transition_.begin();
-         iter != curr->transition_.end();
+    for (auto iter = curr->transition_.begin(); iter != curr->transition_.end();
          iter++) {
       auto set = iter->second;
 
-      for (auto setIter = set->begin();
-         setIter != set->end();
-         setIter++) {
+      for (auto setIter = set->begin(); setIter != set->end(); setIter++) {
         q.push(*setIter);
       }
     }
@@ -92,7 +88,8 @@ void NFA::PrintNFA() {
   *nfa_stream_ << "{\n";
 
   *nfa_stream_ << "  \"size\": " << size_ << ",\n";
-  *nfa_stream_ << "  \"nfa\": {" << "\n";
+  *nfa_stream_ << "  \"nfa\": {"
+               << "\n";
 
   int* visited = new int[size_];
   visited[size_ - 1] = 1;
@@ -114,14 +111,11 @@ void NFA::PrintNFA() {
 
     *nfa_stream_ << ",\n";
 
-    for (auto iter = curr->transition_.begin();
-         iter != curr->transition_.end();
+    for (auto iter = curr->transition_.begin(); iter != curr->transition_.end();
          iter++) {
       auto set = iter->second;
 
-      for (auto setIter = set->begin();
-         setIter != set->end();
-         setIter++) {
+      for (auto setIter = set->begin(); setIter != set->end(); setIter++) {
         q.push(*setIter);
       }
     }
@@ -129,11 +123,12 @@ void NFA::PrintNFA() {
 
   accept_->Print(nfa_stream_);
 
-  *nfa_stream_ << "\n  }" << "\n";
+  *nfa_stream_ << "\n  }"
+               << "\n";
   *nfa_stream_ << "}\n";
 
   delete[] visited;
 }
 
-} // namespace nfa
-} // namespace regex_plus
+}  // namespace nfa
+}  // namespace regex_plus
